@@ -156,4 +156,18 @@ public class Cluster {
 
     }
 
+
+    public List<Cluster> cutHierarchicalTree(double threshold) {
+        List<Cluster> clusters = new ArrayList<Cluster>();
+        for (Cluster child : getChildren()) {
+            if (child.getDistance().getDistance() < threshold && !child.getChildren().isEmpty()) {
+                clusters.add(child);
+            } else {
+                //TODO eliminate empty invoke. child could not have children. And it is better not to run, cut method.
+                clusters.addAll(child.cutHierarchicalTree(threshold));
+            }
+        }
+        return clusters;
+    }
+
 }
